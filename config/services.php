@@ -41,4 +41,8 @@ return [
         'notify_to' => env('WHATSAPP_NOTIFY_TO'),
     ],
 
+    'gerenciador' => [
+        'api_token' => env('GERENCIADOR_API_TOKEN'),
+    ],
+
 ];
