@@ -39,7 +39,7 @@
             </div>
         @endunless
         <div class="relative max-w-6xl mx-auto px-6 pb-12 text-center w-full">
-            <p class="font-display font-semibold text-sm tracking-[3px] text-terracotta mb-3">JUARI EVENTOS</p>
+            <p class="font-sans font-semibold text-sm tracking-[3px] text-terracotta mb-3">JUARI EVENTOS</p>
             <h1 class="font-display font-extrabold text-3xl md:text-4xl text-cream">Galeria</h1>
             <p class="text-cream/80 mt-3">Momentos reais celebrados no nosso espaço.</p>
         </div>
@@ -47,7 +47,7 @@
 
     {{-- KICKER + TÍTULO --}}
     <div class="max-w-6xl mx-auto px-6 pt-12">
-        <p class="font-display font-semibold text-xs tracking-[3px] text-terracotta uppercase mb-2">Portfólio</p>
+        <p class="font-sans font-semibold text-xs tracking-[3px] text-terracotta uppercase mb-2">Portfólio</p>
     </div>
 
     {{-- FILTROS --}}

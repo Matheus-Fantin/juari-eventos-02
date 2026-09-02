@@ -19,7 +19,7 @@
             </div>
         @endunless
         <div class="relative max-w-6xl mx-auto px-6 pb-12 text-center w-full">
-            <p class="font-display font-semibold text-sm tracking-[3px] text-terracotta mb-3">JUARI EVENTOS</p>
+            <p class="font-sans font-semibold text-sm tracking-[3px] text-terracotta mb-3">JUARI EVENTOS</p>
             <h1 class="font-display font-extrabold text-3xl md:text-4xl text-cream">Sobre o espaço</h1>
             <p class="text-cream/80 mt-3">Conheça a Juari Eventos, em Sertanópolis — PR.</p>
         </div>
@@ -29,7 +29,7 @@
     @php $img1 = 'images/sobre/sobre-1.jpg'; $existe1 = file_exists(public_path($img1)); @endphp
     <section class="max-w-6xl mx-auto px-6 py-16 grid gap-10 md:grid-cols-2 items-center">
         <div>
-            <h2 class="font-display font-semibold text-base tracking-[2px] text-terracotta uppercase mb-4">Um espaço para cada momento</h2>
+            <h2 class="font-sans font-semibold text-base tracking-[2px] text-terracotta uppercase mb-4">Um espaço para cada momento</h2>
             <p class="text-graphite/80 text-base leading-relaxed">
                 A Juari Eventos nasceu para transformar momentos em memórias inesquecíveis. Nosso espaço foi
                 pensado para receber celebrações de todos os tipos — de casamentos elegantes a festas infantis
@@ -51,7 +51,7 @@
             @unless($existe2) {{ $img2 }} @endunless
         </div>
         <div class="md:order-2">
-            <h2 class="font-display font-semibold text-base tracking-[2px] text-terracotta uppercase mb-4">Compromisso com cada detalhe</h2>
+            <h2 class="font-sans font-semibold text-base tracking-[2px] text-terracotta uppercase mb-4">Compromisso com cada detalhe</h2>
             <p class="text-graphite/80 text-base leading-relaxed">
                 Nossa equipe acompanha cada etapa da organização para que você não precise se preocupar com nada
                 além de aproveitar o seu dia. Do primeiro contato à realização do evento, cuidamos da estrutura,
@@ -62,29 +62,32 @@
 
     {{-- ESTRUTURA DO ESPAÇO (grid com ícones) --}}
     <section class="max-w-6xl mx-auto px-6 py-16 border-t border-graphite/10">
-        <p class="font-display font-semibold text-xs tracking-[3px] text-terracotta uppercase mb-2">Estrutura do Espaço</p>
+        <div class="flex items-center gap-3 mb-2">
+            <p class="font-sans font-semibold text-xs tracking-[3px] text-terracotta uppercase whitespace-nowrap">Estrutura do Espaço</p>
+            <span class="flex-1 h-px bg-graphite/10"></span>
+        </div>
         <h2 class="font-display font-extrabold text-2xl md:text-3xl text-graphite mb-8">
             Tudo pronto para o seu evento, do início ao fim
         </h2>
 
         @php
             $estrutura = [
-                ['nome' => 'Salão Amplo', 'icone' => 'M4 21h16M4 21V9l8-6 8 6v12M9 21v-6h6v6'],
-                ['nome' => 'Área Coberta', 'icone' => 'M3 12l9-8 9 8M5 10v10h14V10'],
-                ['nome' => 'Espaço Kids', 'icone' => 'M12 8a3 3 0 100-6 3 3 0 000 6zM6 21v-4a4 4 0 014-4h4a4 4 0 014 4v4'],
-                ['nome' => 'Ar-condicionado', 'icone' => 'M3 12h18M12 3v18M6 6l12 12M18 6L6 18'],
-                ['nome' => 'Fogão a Lenha', 'icone' => 'M12 2c2 3-2 4-2 7a2 2 0 104 0c0-1-.5-1.5-1-2'],
-                ['nome' => 'Churrasqueira', 'icone' => 'M4 12h16M6 12v6a2 2 0 002 2h8a2 2 0 002-2v-6'],
-                ['nome' => 'Cozinha de Apoio', 'icone' => 'M7 3v6M11 3v6M7 6h4M15 3l-3 9h6l-3 9'],
-                ['nome' => 'Banheiros', 'icone' => 'M9 3v18M15 3a3 3 0 013 3v15M15 9h3'],
+                ['nome' => 'Salão Amplo', 'icone' => '<rect x="3" y="6" width="18" height="13" rx="1.4"/><path d="M3 11 h18 M8 19 V11 M16 19 V11"/>'],
+                ['nome' => 'Área Coberta', 'icone' => '<path d="M2.5 10 L12 4 L21.5 10"/><path d="M5 10 V19 H19 V10"/>'],
+                ['nome' => 'Espaço Kids', 'icone' => '<circle cx="12" cy="6.5" r="2.6"/><path d="M6 19 c0-4 2.7-6.4 6-6.4s6 2.4 6 6.4"/><path d="M9 19 v-3 M15 19 v-3"/>'],
+                ['nome' => 'Ar-condicionado', 'icone' => '<rect x="3" y="5" width="18" height="7" rx="1.6"/><path d="M6 15 v3 M10 15 v4.5 M14 15 v3 M18 15 v4.5"/>'],
+                ['nome' => 'Fogão a Lenha', 'icone' => '<path d="M12 3 c1.6 2.2 2.2 3.6 2.2 5 a2.2 2.2 0 1 1-4.4 0 c0-.8.3-1.5.8-2.2"/><path d="M6 21 c0-4.4 2.7-7 6-7s6 2.6 6 7"/>'],
+                ['nome' => 'Churrasqueira', 'icone' => '<ellipse cx="12" cy="8" rx="7" ry="3"/><path d="M5 8 v4 c0 1.7 3.1 3 7 3s7-1.3 7-3V8"/><path d="M9 15 l-2 6 M15 15 l2 6"/>'],
+                ['nome' => 'Cozinha de Apoio', 'icone' => '<path d="M5 3 v7 M8 3 v7 M5 7 h3 M6.5 10 v11"/><path d="M15 3 c-2 0-3 2-3 4.5 s1 4 3 4 M15 3 v18"/>'],
+                ['nome' => 'Banheiros', 'icone' => '<circle cx="8" cy="5" r="1.8"/><path d="M8 8 v12 M5 12 h6"/><circle cx="17" cy="5" r="1.8" fill="currentColor" stroke="none"/><path d="M17 8 c-2 0-2.6 1.6-2.6 3 v3 h5.2 v-3 c0-1.4-.6-3-2.6-3 Z M17 14 v6"/>'],
             ];
         @endphp
 
         <div class="grid grid-cols-2 md:grid-cols-4 border border-graphite/10 rounded-lg overflow-hidden divide-x divide-y divide-graphite/10 md:divide-y-0">
             @foreach ($estrutura as $item)
                 <div class="flex flex-col items-center justify-center text-center gap-2.5 px-4 py-8 bg-white">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-terracotta" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
-                        <path d="{{ $item['icone'] }}"></path>
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-terracotta" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+                        {!! $item['icone'] !!}
                     </svg>
                     <span class="text-sm text-graphite/80">{{ $item['nome'] }}</span>
                 </div>
@@ -94,7 +97,7 @@
 
     {{-- DETALHES QUE FAZEM A DIFERENÇA --}}
     <section class="max-w-6xl mx-auto px-6 py-16 border-t border-graphite/10">
-        <p class="font-display font-semibold text-xs tracking-[3px] text-terracotta uppercase mb-2">Como funciona</p>
+        <p class="font-sans font-semibold text-xs tracking-[3px] text-terracotta uppercase mb-2">Como funciona</p>
         <h2 class="font-display font-extrabold text-2xl md:text-3xl text-graphite mb-8">
             Detalhes que fazem a diferença
         </h2>
@@ -125,7 +128,7 @@
 
     {{-- GASTRONOMIA --}}
     <section id="gastronomia" class="max-w-6xl mx-auto px-6 py-16 border-t border-graphite/10">
-        <p class="font-display font-semibold text-xs tracking-[3px] text-terracotta uppercase mb-2">Gastronomia</p>
+        <p class="font-sans font-semibold text-xs tracking-[3px] text-terracotta uppercase mb-2">Gastronomia</p>
         <h2 class="font-display font-extrabold text-2xl md:text-3xl text-graphite mb-4">
             Cardápios pensados para cada tipo de celebração
         </h2>

@@ -17,3 +17,7 @@
     --color-terracotta-dark: #8b4a2f;
     --color-cream: #f1efe8;
 }
+
+[id] {
+    scroll-margin-top: 84px;
+}

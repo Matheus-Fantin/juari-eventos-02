@@ -111,37 +111,28 @@
 </head>
 <body class="font-sans text-graphite bg-cream antialiased notranslate">
 
-    <header id="site-header" class="fixed top-0 inset-x-0 z-30 bg-gradient-to-b from-graphite/60 to-transparent transition-[background-color,box-shadow] duration-300">
-        <nav class="max-w-6xl mx-auto flex items-center justify-between px-6 py-5">
+    <header id="site-header" class="fixed top-0 inset-x-0 z-30 bg-cream border-b border-graphite/10">
+        <nav class="max-w-6xl mx-auto flex items-center justify-between px-6 py-4">
             <a href="{{ url('/') }}" class="leading-none relative z-40 font-logo">
-                <span class="font-semibold text-3xl tracking-[2px] text-cream">JUARI</span>
-                <span class="italic font-medium text-sm text-cream/75 block -mt-1">Eventos</span>
+                <span class="font-semibold text-2xl tracking-[2px] text-graphite">JUARI</span>
+                <span class="italic font-medium text-xs text-graphite/70 block -mt-1">Eventos</span>
             </a>
 
-            <ul class="hidden md:flex items-center gap-8 text-sm text-cream/80">
-                <li>
-                    <a href="{{ url('/') }}" class="flex items-center gap-1.5 hover:text-cream transition">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <path d="M3 11l9-8 9 8"></path>
-                            <path d="M5 10v10h14V10"></path>
-                        </svg>
-                        Início
-                    </a>
-                </li>
-                <li><a href="{{ url('/sobre') }}" class="hover:text-cream transition">Sobre</a></li>
-                <li><a href="{{ url('/') }}#eventos" class="hover:text-cream transition">Eventos</a></li>
-                <li><a href="{{ url('/galeria') }}" class="hover:text-cream transition">Galeria</a></li>
-                <li><a href="{{ url('/') }}#faq" class="hover:text-cream transition">FAQ</a></li>
-                <li><a href="{{ url('/') }}#contato" class="hover:text-cream transition">Contato</a></li>
+            <ul class="hidden md:flex items-center gap-8 text-sm text-graphite/70">
+                <li><a href="{{ url('/') }}" class="hover:text-terracotta transition">Início</a></li>
+                <li><a href="{{ url('/sobre') }}" class="hover:text-terracotta transition">Sobre</a></li>
+                <li><a href="{{ url('/') }}#eventos" class="hover:text-terracotta transition">Eventos</a></li>
+                <li><a href="{{ url('/galeria') }}" class="hover:text-terracotta transition">Galeria</a></li>
+                <li><a href="{{ url('/') }}#contato" class="hover:text-terracotta transition">Contato</a></li>
             </ul>
 
             <a href="{{ url('/') }}#orcamento"
                class="hidden md:inline-flex items-center rounded-md bg-terracotta px-4 py-2 text-sm font-medium text-cream hover:bg-terracotta-dark transition">
-                Orçamento
+                Solicitar orçamento
             </a>
 
             <button id="menu-toggle" type="button"
-                    class="md:hidden relative z-40 h-9 w-9 flex items-center justify-center text-cream"
+                    class="md:hidden relative z-40 h-9 w-9 flex items-center justify-center text-graphite"
                     aria-label="Abrir menu">
                 <svg id="icon-menu" xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                     <path d="M4 6h16M4 12h16M4 18h16"></path>
@@ -152,18 +143,12 @@
             </button>
         </nav>
 
-        <div id="menu-mobile" class="hidden md:hidden bg-graphite px-6 pb-6">
-            <ul class="flex flex-col gap-4 text-sm text-cream/90 pt-2">
-                <li><a href="{{ url('/') }}" class="flex items-center gap-2">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <path d="M3 11l9-8 9 8"></path><path d="M5 10v10h14V10"></path>
-                        </svg>
-                        Início
-                </a></li>
+        <div id="menu-mobile" class="hidden md:hidden bg-cream border-t border-graphite/10 px-6 pb-6">
+            <ul class="flex flex-col gap-4 text-sm text-graphite/80 pt-4">
+                <li><a href="{{ url('/') }}">Início</a></li>
                 <li><a href="{{ url('/sobre') }}">Sobre</a></li>
                 <li><a href="{{ url('/') }}#eventos">Eventos</a></li>
                 <li><a href="{{ url('/galeria') }}">Galeria</a></li>
-                <li><a href="{{ url('/') }}#faq">FAQ</a></li>
                 <li><a href="{{ url('/') }}#contato">Contato</a></li>
                 <li>
                     <a href="{{ url('/') }}#orcamento"
@@ -175,7 +160,7 @@
         </div>
     </header>
 
-    <main>
+    <main class="pt-[73px]">
         @yield('content')
     </main>
 
@@ -290,21 +275,6 @@
                 iconMenu.classList.toggle('hidden');
                 iconClose.classList.toggle('hidden');
             });
-        }
-
-        var siteHeader = document.getElementById('site-header');
-        if (siteHeader) {
-            var atualizarHeader = function () {
-                if (window.scrollY > 40) {
-                    siteHeader.classList.remove('bg-gradient-to-b', 'from-graphite/60', 'to-transparent');
-                    siteHeader.classList.add('bg-graphite/95', 'backdrop-blur', 'shadow-md');
-                } else {
-                    siteHeader.classList.add('bg-gradient-to-b', 'from-graphite/60', 'to-transparent');
-                    siteHeader.classList.remove('bg-graphite/95', 'backdrop-blur', 'shadow-md');
-                }
-            };
-            atualizarHeader();
-            window.addEventListener('scroll', atualizarHeader);
         }
 
         var backToTop = document.getElementById('back-to-top');

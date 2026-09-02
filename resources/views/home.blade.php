@@ -18,7 +18,7 @@
             </div>
         @endunless
         <div class="relative max-w-6xl mx-auto px-6 pb-12 text-center w-full">
-            <p class="font-display font-semibold text-sm tracking-[3px] text-terracotta mb-3">SERTANÓPOLIS · PR</p>
+            <p class="font-sans font-semibold text-sm tracking-[3px] text-terracotta mb-3">SERTANÓPOLIS · PR</p>
             <h1 class="font-display font-extrabold text-4xl md:text-5xl text-cream mb-3">
                 JUARI <span class="text-cream/75">EVENTOS</span>
             </h1>
@@ -60,24 +60,33 @@
     {{-- TIPOS DE EVENTO --}}
     @php
         $tiposEvento = [
-            'casamentos' => 'Casamentos',
-            'festas-infantis' => 'Festas Infantis',
-            '15-anos' => '15 Anos',
-            'corporativo' => 'Corporativo',
-            'aniversarios' => 'Aniversários',
-            'cha-de-bebe' => 'Chá de Bebê',
-            'formaturas' => 'Formaturas',
-            'outros' => 'Outros',
+            'casamentos' => ['nome' => 'Casamentos', 'icone' => '<circle cx="9" cy="14" r="5"/><circle cx="15" cy="14" r="5"/>'],
+            'festas-infantis' => ['nome' => 'Festas Infantis', 'icone' => '<ellipse cx="12" cy="9" rx="6" ry="7"/><path d="M12 16 L10.5 18 L13.5 19 L11 21"/>'],
+            '15-anos' => ['nome' => '15 Anos', 'icone' => '<path d="M4 17 L4 12 L9 16 L12 8 L15 16 L20 12 L20 17 Z"/><circle cx="12" cy="6" r="1.4"/>'],
+            'corporativo' => ['nome' => 'Corporativo', 'icone' => '<rect x="3.5" y="8" width="17" height="11" rx="1.6"/><path d="M9 8 V6.2 A1.4 1.4 0 0 1 10.4 4.8 h3.2 A1.4 1.4 0 0 1 15 6.2 V8"/><path d="M3.5 12.5 h17"/>'],
+            'aniversarios' => ['nome' => 'Aniversários', 'icone' => '<rect x="4" y="12" width="16" height="8" rx="1.4"/><path d="M4 16 h16"/><path d="M9 12 V9 M12 12 V9 M15 12 V9"/><circle cx="9" cy="6" r="0.9" fill="currentColor" stroke="none"/><circle cx="12" cy="6" r="0.9" fill="currentColor" stroke="none"/><circle cx="15" cy="6" r="0.9" fill="currentColor" stroke="none"/>'],
+            'cha-de-bebe' => ['nome' => 'Chá de Bebê', 'icone' => '<rect x="7" y="9" width="8" height="12" rx="2.4"/><path d="M9.5 9 V6.6 h5 V9"/><path d="M10.3 4.6 h3.4 v2 h-3.4 z"/><path d="M7 14 h8"/>'],
+            'formaturas' => ['nome' => 'Formaturas', 'icone' => '<path d="M2 10 L12 5 L22 10 L12 15 Z"/><path d="M6 12 V16 c0 1.7 2.7 3 6 3 s6 -1.3 6 -3 V12"/><path d="M22 10 v5.5"/>'],
+            'outros' => ['nome' => 'Outros', 'icone' => '<path d="M12 3 V9 M12 15 V21 M3 12 H9 M15 12 H21 M5.6 5.6 L9.5 9.5 M14.5 14.5 L18.4 18.4 M18.4 5.6 L14.5 9.5 M9.5 14.5 L5.6 18.4"/>'],
         ];
     @endphp
     <section id="eventos" class="max-w-6xl mx-auto px-6 py-16">
-        <p class="font-display font-semibold text-sm tracking-[3px] text-terracotta uppercase mb-2">Tipos de evento</p>
-        <h2 class="font-display font-extrabold text-2xl md:text-3xl text-graphite mb-8">Encontre a celebração que combina com você</h2>
+        <div class="flex items-center gap-3 mb-2">
+            <p class="font-sans font-semibold text-xs tracking-[3px] text-terracotta uppercase whitespace-nowrap">Tipos de evento</p>
+            <span class="flex-1 h-px bg-graphite/10"></span>
+        </div>
+        <h2 class="font-display font-extrabold text-2xl md:text-3xl text-graphite mb-2">Encontre a celebração que combina com você</h2>
+        <p class="text-graphite/60 text-sm mb-8">Escolha um tipo para ver o portfólio correspondente na galeria.</p>
         <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
-            @foreach ($tiposEvento as $slug => $nome)
+            @foreach ($tiposEvento as $slug => $tipo)
                 <a href="{{ url('/galeria') }}?tipo={{ $slug }}"
-                   class="rounded-lg bg-white shadow-sm border border-graphite/5 p-6 text-center text-sm font-medium text-graphite transition hover:shadow-md hover:-translate-y-0.5 hover:border-terracotta">
-                    {{ $nome }}
+                   class="group rounded-lg bg-white shadow-sm border border-graphite/5 p-6 flex flex-col items-center gap-3 text-center transition hover:shadow-md hover:-translate-y-0.5 hover:border-terracotta">
+                    <span class="h-11 w-11 rounded-full bg-terracotta/10 text-terracotta flex items-center justify-center transition group-hover:bg-terracotta group-hover:text-cream">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6">
+                            {!! $tipo['icone'] !!}
+                        </svg>
+                    </span>
+                    <span class="text-sm font-medium text-graphite">{{ $tipo['nome'] }}</span>
                 </a>
             @endforeach
         </div>
@@ -85,29 +94,32 @@
 
     {{-- ESTRUTURA --}}
     <section id="estrutura" class="max-w-6xl mx-auto px-6 py-16 border-t border-graphite/10">
-        <p class="font-display font-semibold text-xs tracking-[3px] text-terracotta uppercase mb-2">Estrutura do Espaço</p>
+        <div class="flex items-center gap-3 mb-2">
+            <p class="font-sans font-semibold text-xs tracking-[3px] text-terracotta uppercase whitespace-nowrap">Estrutura do Espaço</p>
+            <span class="flex-1 h-px bg-graphite/10"></span>
+        </div>
         <h2 class="font-display font-extrabold text-2xl md:text-3xl text-graphite mb-8">
             Tudo pronto para o seu evento, do início ao fim
         </h2>
 
         @php
             $estruturaHome = [
-                ['nome' => 'Salão Amplo', 'icone' => 'M4 21h16M4 21V9l8-6 8 6v12M9 21v-6h6v6'],
-                ['nome' => 'Área Coberta', 'icone' => 'M3 12l9-8 9 8M5 10v10h14V10'],
-                ['nome' => 'Espaço Kids', 'icone' => 'M12 8a3 3 0 100-6 3 3 0 000 6zM6 21v-4a4 4 0 014-4h4a4 4 0 014 4v4'],
-                ['nome' => 'Ar-condicionado', 'icone' => 'M3 12h18M12 3v18M6 6l12 12M18 6L6 18'],
-                ['nome' => 'Fogão a Lenha', 'icone' => 'M12 2c2 3-2 4-2 7a2 2 0 104 0c0-1-.5-1.5-1-2'],
-                ['nome' => 'Churrasqueira', 'icone' => 'M4 12h16M6 12v6a2 2 0 002 2h8a2 2 0 002-2v-6'],
-                ['nome' => 'Cozinha de Apoio', 'icone' => 'M7 3v6M11 3v6M7 6h4M15 3l-3 9h6l-3 9'],
-                ['nome' => 'Banheiros', 'icone' => 'M9 3v18M15 3a3 3 0 013 3v15M15 9h3'],
+                ['nome' => 'Salão Amplo', 'icone' => '<rect x="3" y="6" width="18" height="13" rx="1.4"/><path d="M3 11 h18 M8 19 V11 M16 19 V11"/>'],
+                ['nome' => 'Área Coberta', 'icone' => '<path d="M2.5 10 L12 4 L21.5 10"/><path d="M5 10 V19 H19 V10"/>'],
+                ['nome' => 'Espaço Kids', 'icone' => '<circle cx="12" cy="6.5" r="2.6"/><path d="M6 19 c0-4 2.7-6.4 6-6.4s6 2.4 6 6.4"/><path d="M9 19 v-3 M15 19 v-3"/>'],
+                ['nome' => 'Ar-condicionado', 'icone' => '<rect x="3" y="5" width="18" height="7" rx="1.6"/><path d="M6 15 v3 M10 15 v4.5 M14 15 v3 M18 15 v4.5"/>'],
+                ['nome' => 'Fogão a Lenha', 'icone' => '<path d="M12 3 c1.6 2.2 2.2 3.6 2.2 5 a2.2 2.2 0 1 1-4.4 0 c0-.8.3-1.5.8-2.2"/><path d="M6 21 c0-4.4 2.7-7 6-7s6 2.6 6 7"/>'],
+                ['nome' => 'Churrasqueira', 'icone' => '<ellipse cx="12" cy="8" rx="7" ry="3"/><path d="M5 8 v4 c0 1.7 3.1 3 7 3s7-1.3 7-3V8"/><path d="M9 15 l-2 6 M15 15 l2 6"/>'],
+                ['nome' => 'Cozinha de Apoio', 'icone' => '<path d="M5 3 v7 M8 3 v7 M5 7 h3 M6.5 10 v11"/><path d="M15 3 c-2 0-3 2-3 4.5 s1 4 3 4 M15 3 v18"/>'],
+                ['nome' => 'Banheiros', 'icone' => '<circle cx="8" cy="5" r="1.8"/><path d="M8 8 v12 M5 12 h6"/><circle cx="17" cy="5" r="1.8" fill="currentColor" stroke="none"/><path d="M17 8 c-2 0-2.6 1.6-2.6 3 v3 h5.2 v-3 c0-1.4-.6-3-2.6-3 Z M17 14 v6"/>'],
             ];
         @endphp
 
         <div class="grid grid-cols-2 md:grid-cols-4 border border-graphite/10 rounded-lg overflow-hidden divide-x divide-y divide-graphite/10 md:divide-y-0">
             @foreach ($estruturaHome as $item)
                 <div class="flex flex-col items-center justify-center text-center gap-2.5 px-4 py-8 bg-white">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-terracotta" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
-                        <path d="{{ $item['icone'] }}"></path>
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-terracotta" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+                        {!! $item['icone'] !!}
                     </svg>
                     <span class="text-sm text-graphite/80">{{ $item['nome'] }}</span>
                 </div>
@@ -121,7 +133,7 @@
     @endphp
     <section class="max-w-6xl mx-auto px-6 py-16 border-t border-graphite/10">
         <div class="flex items-center justify-between mb-8">
-            <h2 class="font-display font-semibold text-sm tracking-[3px] text-terracotta uppercase">Galeria</h2>
+            <h2 class="font-sans font-semibold text-sm tracking-[3px] text-terracotta uppercase">Galeria</h2>
             <a href="{{ url('/galeria') }}" class="text-sm text-terracotta hover:text-terracotta-dark transition">Ver todas as fotos →</a>
         </div>
         <div class="grid grid-cols-2 md:grid-cols-4 gap-3">
@@ -140,7 +152,7 @@
 
     {{-- GASTRONOMIA --}}
     <section id="gastronomia" class="max-w-6xl mx-auto px-6 py-16 border-t border-graphite/10">
-        <h2 class="font-display font-semibold text-sm tracking-[3px] text-terracotta uppercase mb-3">Gastronomia</h2>
+        <h2 class="font-sans font-semibold text-sm tracking-[3px] text-terracotta uppercase mb-3">Gastronomia</h2>
         <p class="text-graphite/70 text-sm max-w-xl mb-8">
             Sabores que completam a experiência do seu evento, com opções para todos os estilos de celebração.
         </p>
@@ -165,33 +177,33 @@
     {{-- COMO FUNCIONA --}}
     <section class="bg-cream border-t border-graphite/10">
         <div class="max-w-6xl mx-auto px-6 py-16">
-            <h2 class="font-display font-semibold text-sm tracking-[3px] text-terracotta uppercase text-center mb-2">Simples e transparente</h2>
+            <h2 class="font-sans font-semibold text-sm tracking-[3px] text-terracotta uppercase text-center mb-2">Simples e transparente</h2>
             <p class="font-display font-extrabold text-2xl md:text-3xl text-graphite text-center mb-12">Do primeiro contato ao dia do evento</p>
 
             <div class="flex flex-col md:grid md:grid-cols-4 gap-8 md:text-center max-w-md md:max-w-none mx-auto">
                 <div class="flex gap-4 md:flex-col md:items-center">
-                    <div class="h-11 w-11 shrink-0 rounded-full bg-terracotta text-cream font-display font-bold flex items-center justify-center md:mb-4">1</div>
+                    <div class="h-11 w-11 shrink-0 rounded-full bg-terracotta text-cream font-sans font-bold text-base flex items-center justify-center md:mb-4">1</div>
                     <div>
                         <p class="font-medium text-sm mb-1">Conte sobre seu evento</p>
                         <p class="text-xs text-graphite/60">Informe a data, o tipo e o número aproximado de convidados.</p>
                     </div>
                 </div>
                 <div class="flex gap-4 md:flex-col md:items-center">
-                    <div class="h-11 w-11 shrink-0 rounded-full bg-terracotta text-cream font-display font-bold flex items-center justify-center md:mb-4">2</div>
+                    <div class="h-11 w-11 shrink-0 rounded-full bg-terracotta text-cream font-sans font-bold text-base flex items-center justify-center md:mb-4">2</div>
                     <div>
                         <p class="font-medium text-sm mb-1">Consulte a disponibilidade</p>
                         <p class="text-xs text-graphite/60">Nossa equipe verifica a data e retorna com as opções.</p>
                     </div>
                 </div>
                 <div class="flex gap-4 md:flex-col md:items-center">
-                    <div class="h-11 w-11 shrink-0 rounded-full bg-terracotta text-cream font-display font-bold flex items-center justify-center md:mb-4">3</div>
+                    <div class="h-11 w-11 shrink-0 rounded-full bg-terracotta text-cream font-sans font-bold text-base flex items-center justify-center md:mb-4">3</div>
                     <div>
                         <p class="font-medium text-sm mb-1">Conheça o espaço</p>
                         <p class="text-xs text-graphite/60">Agende uma visita e veja de perto a estrutura completa.</p>
                     </div>
                 </div>
                 <div class="flex gap-4 md:flex-col md:items-center">
-                    <div class="h-11 w-11 shrink-0 rounded-full bg-terracotta text-cream font-display font-bold flex items-center justify-center md:mb-4">4</div>
+                    <div class="h-11 w-11 shrink-0 rounded-full bg-terracotta text-cream font-sans font-bold text-base flex items-center justify-center md:mb-4">4</div>
                     <div>
                         <p class="font-medium text-sm mb-1">Reserve sua data</p>
                         <p class="text-xs text-graphite/60">Alinhe os detalhes finais e garanta a sua celebração.</p>
@@ -203,7 +215,7 @@
 
     {{-- DEPOIMENTOS --}}
     <section id="depoimentos" class="max-w-6xl mx-auto px-6 py-16 border-t border-graphite/10">
-        <h2 class="font-display font-semibold text-sm tracking-[3px] text-terracotta uppercase mb-8">Depoimentos</h2>
+        <h2 class="font-sans font-semibold text-sm tracking-[3px] text-terracotta uppercase mb-8">Depoimentos</h2>
 
         @php
             $depoimentosReais = \App\Models\Testimonial::where('publicado', true)->latest()->take(6)->get();
@@ -346,7 +358,7 @@
     {{-- FAQ --}}
     <section id="faq" class="max-w-6xl mx-auto px-6 py-16 grid gap-10 md:grid-cols-[1fr_2fr] border-t border-graphite/10">
         <div>
-            <p class="font-display font-semibold text-sm tracking-[3px] text-terracotta uppercase mb-3">Dúvidas frequentes</p>
+            <p class="font-sans font-semibold text-sm tracking-[3px] text-terracotta uppercase mb-3">Dúvidas frequentes</p>
             <h2 class="font-display font-extrabold text-2xl md:text-3xl text-graphite mb-4">Tudo o que você precisa saber</h2>
             <p class="text-graphite/60 text-sm mb-6">Se ainda houver alguma dúvida, fale com nossa equipe.</p>
             <a href="https://wa.me/5543996497714" target="_blank" rel="noopener"
