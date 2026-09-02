@@ -111,7 +111,7 @@
 </head>
 <body class="font-sans text-graphite bg-cream antialiased notranslate">
 
-    <header class="absolute top-0 inset-x-0 z-30 bg-gradient-to-b from-graphite/60 to-transparent">
+    <header id="site-header" class="fixed top-0 inset-x-0 z-30 bg-gradient-to-b from-graphite/60 to-transparent transition-[background-color,box-shadow] duration-300">
         <nav class="max-w-6xl mx-auto flex items-center justify-between px-6 py-5">
             <a href="{{ url('/') }}" class="leading-none relative z-40 font-logo">
                 <span class="font-semibold text-3xl tracking-[2px] text-cream">JUARI</span>
@@ -290,6 +290,21 @@
                 iconMenu.classList.toggle('hidden');
                 iconClose.classList.toggle('hidden');
             });
+        }
+
+        var siteHeader = document.getElementById('site-header');
+        if (siteHeader) {
+            var atualizarHeader = function () {
+                if (window.scrollY > 40) {
+                    siteHeader.classList.remove('bg-gradient-to-b', 'from-graphite/60', 'to-transparent');
+                    siteHeader.classList.add('bg-graphite/95', 'backdrop-blur', 'shadow-md');
+                } else {
+                    siteHeader.classList.add('bg-gradient-to-b', 'from-graphite/60', 'to-transparent');
+                    siteHeader.classList.remove('bg-graphite/95', 'backdrop-blur', 'shadow-md');
+                }
+            };
+            atualizarHeader();
+            window.addEventListener('scroll', atualizarHeader);
         }
 
         var backToTop = document.getElementById('back-to-top');

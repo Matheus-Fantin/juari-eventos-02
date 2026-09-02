@@ -85,16 +85,33 @@
 
     {{-- ESTRUTURA --}}
     <section id="estrutura" class="max-w-6xl mx-auto px-6 py-16 border-t border-graphite/10">
-        <h2 class="font-display font-semibold text-sm tracking-[3px] text-terracotta uppercase mb-8">Estrutura do espaço</h2>
-        <div class="grid grid-cols-2 md:grid-cols-4 gap-6 text-center text-sm text-graphite/70">
-            <div>Salão Amplo</div>
-            <div>Área Coberta</div>
-            <div>Espaço Kids</div>
-            <div>Ar-condicionado</div>
-            <div>Fogão a Lenha</div>
-            <div>Churrasqueira</div>
-            <div>Cozinha de Apoio</div>
-            <div>Banheiros</div>
+        <p class="font-display font-semibold text-xs tracking-[3px] text-terracotta uppercase mb-2">Estrutura do Espaço</p>
+        <h2 class="font-display font-extrabold text-2xl md:text-3xl text-graphite mb-8">
+            Tudo pronto para o seu evento, do início ao fim
+        </h2>
+
+        @php
+            $estruturaHome = [
+                ['nome' => 'Salão Amplo', 'icone' => 'M4 21h16M4 21V9l8-6 8 6v12M9 21v-6h6v6'],
+                ['nome' => 'Área Coberta', 'icone' => 'M3 12l9-8 9 8M5 10v10h14V10'],
+                ['nome' => 'Espaço Kids', 'icone' => 'M12 8a3 3 0 100-6 3 3 0 000 6zM6 21v-4a4 4 0 014-4h4a4 4 0 014 4v4'],
+                ['nome' => 'Ar-condicionado', 'icone' => 'M3 12h18M12 3v18M6 6l12 12M18 6L6 18'],
+                ['nome' => 'Fogão a Lenha', 'icone' => 'M12 2c2 3-2 4-2 7a2 2 0 104 0c0-1-.5-1.5-1-2'],
+                ['nome' => 'Churrasqueira', 'icone' => 'M4 12h16M6 12v6a2 2 0 002 2h8a2 2 0 002-2v-6'],
+                ['nome' => 'Cozinha de Apoio', 'icone' => 'M7 3v6M11 3v6M7 6h4M15 3l-3 9h6l-3 9'],
+                ['nome' => 'Banheiros', 'icone' => 'M9 3v18M15 3a3 3 0 013 3v15M15 9h3'],
+            ];
+        @endphp
+
+        <div class="grid grid-cols-2 md:grid-cols-4 border border-graphite/10 rounded-lg overflow-hidden divide-x divide-y divide-graphite/10 md:divide-y-0">
+            @foreach ($estruturaHome as $item)
+                <div class="flex flex-col items-center justify-center text-center gap-2.5 px-4 py-8 bg-white">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-terracotta" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+                        <path d="{{ $item['icone'] }}"></path>
+                    </svg>
+                    <span class="text-sm text-graphite/80">{{ $item['nome'] }}</span>
+                </div>
+            @endforeach
         </div>
     </section>
 
