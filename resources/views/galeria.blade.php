@@ -5,16 +5,26 @@
 @section('content')
 
     @php
-        $categorias = [
-            'casamentos' => ['nome' => 'Casamentos', 'descricao' => 'Cerimônias e recepções personalizadas para o dia mais especial.'],
-            'festas-infantis' => ['nome' => 'Festas Infantis', 'descricao' => 'Espaço lúdico e seguro para festas infantis inesquecíveis.'],
-            '15-anos' => ['nome' => '15 Anos', 'descricao' => 'Elegância e diversão para celebrar essa data especial.'],
-            'corporativo' => ['nome' => 'Corporativo', 'descricao' => 'Estrutura completa para eventos e confraternizações empresariais.'],
-            'aniversarios' => ['nome' => 'Aniversários', 'descricao' => 'Celebre mais um ano de vida com todo conforto.'],
-            'cha-de-bebe' => ['nome' => 'Chá de Bebê', 'descricao' => 'Momentos delicados para receber o novo integrante da família.'],
-            'formaturas' => ['nome' => 'Formaturas', 'descricao' => 'Festas de formatura com estrutura completa para comemorar essa conquista.'],
+        $descricoes = [
+            'casamentos' => 'Cerimônias e recepções personalizadas para o dia mais especial.',
+            'festas-infantis' => 'Espaço lúdico e seguro para festas infantis inesquecíveis.',
+            '15-anos' => 'Elegância e diversão para celebrar essa data especial.',
+            'corporativo' => 'Estrutura completa para eventos e confraternizações empresariais.',
+            'aniversarios' => 'Celebre mais um ano de vida com todo conforto.',
+            'cha-de-bebe' => 'Momentos delicados para receber o novo integrante da família.',
+            'formaturas' => 'Festas de formatura com estrutura completa para comemorar essa conquista.',
+            'outros' => 'Outras celebrações que merecem um espaço à altura.',
         ];
-        $primeiraCategoria = array_key_first($categorias);
+
+        $galerias = \App\Models\Gallery::with(['photos' => fn ($q) => $q->where('publicada', true)->orderBy('ordem')])
+            ->whereNotNull('categoria')
+            ->orderBy('id')
+            ->get()
+            ->keyBy('categoria');
+
+        $categoriasValidas = $galerias->keys()->all();
+        $categoriaSelecionada = in_array(request('tipo'), $categoriasValidas, true) ? request('tipo') : ($categoriasValidas[0] ?? null);
+
         $capaGaleria = 'images/galeria/capa.jpg';
         $existeCapaGaleria = file_exists(public_path($capaGaleria));
     @endphp
@@ -43,11 +53,11 @@
     {{-- FILTROS --}}
     <div class="max-w-6xl mx-auto px-6">
         <div id="filtros" class="flex flex-wrap gap-2 border-b border-graphite/10 pb-6">
-            @foreach ($categorias as $slug => $info)
+            @foreach ($galerias as $slug => $gallery)
                 <button data-filter="{{ $slug }}"
                         class="filtro-btn px-4 py-2 rounded-full text-sm font-medium transition
-                               {{ $slug === $primeiraCategoria ? 'bg-terracotta text-cream' : 'bg-white border border-graphite/10 text-graphite/70 hover:border-terracotta' }}">
-                    {{ $info['nome'] }}
+                               {{ $slug === $categoriaSelecionada ? 'bg-terracotta text-cream' : 'bg-white border border-graphite/10 text-graphite/70 hover:border-terracotta' }}">
+                    {{ $gallery->nome }}
                 </button>
             @endforeach
         </div>
@@ -56,30 +66,28 @@
     {{-- CARTÕES --}}
     <div class="max-w-6xl mx-auto px-6 py-12">
         <div id="galeria-grid" class="grid grid-cols-1 md:grid-cols-3 gap-6">
-            @foreach ($categorias as $slug => $info)
-                @for ($i = 1; $i <= 4; $i++)
-                    @php
-                        $caminhoRelativo = 'images/galeria/' . $slug . '-' . $i . '.jpg';
-                        $existe = file_exists(public_path($caminhoRelativo));
-                    @endphp
-                    <div class="galeria-card rounded-lg overflow-hidden bg-white shadow-sm border border-graphite/5 transition hover:shadow-md hover:-translate-y-0.5 {{ $slug === $primeiraCategoria ? '' : 'hidden' }}"
+            @foreach ($galerias as $slug => $gallery)
+                @forelse ($gallery->photos as $photo)
+                    <div class="galeria-card rounded-lg overflow-hidden bg-white shadow-sm border border-graphite/5 transition hover:shadow-md hover:-translate-y-0.5 {{ $slug === $categoriaSelecionada ? '' : 'hidden' }}"
                          data-category="{{ $slug }}">
-                        <div class="relative aspect-video {{ $existe ? 'bg-cover bg-center' : 'bg-graphite-light/10 animate-pulse flex items-center justify-center text-xs text-graphite/40' }}"
-                             @if($existe) style="background-image: url('{{ asset($caminhoRelativo) }}');" @endif>
-                            @unless($existe)
-                                Em breve
-                            @endunless
-
+                        <div class="relative aspect-video bg-cover bg-center" style="background-image: url('{{ $photo->url() }}');">
                             <span class="absolute bottom-2 left-2 rounded-full bg-graphite/80 backdrop-blur px-3 py-1 text-[10px] font-semibold uppercase tracking-wide text-cream">
-                                {{ Str::upper(Str::of($info['nome'])->replace('15 Anos', '15 anos')) }}
+                                {{ Str::upper(Str::of($gallery->nome)->replace('15 Anos', '15 anos')) }}
                             </span>
                         </div>
+                    </div>
+                @empty
+                    <div class="galeria-card rounded-lg overflow-hidden bg-white shadow-sm border border-graphite/5 {{ $slug === $categoriaSelecionada ? '' : 'hidden' }}"
+                         data-category="{{ $slug }}">
+                        <div class="relative aspect-video bg-graphite-light/10 animate-pulse flex items-center justify-center text-xs text-graphite/40">
+                            Em breve
+                        </div>
                         <div class="p-4">
-                            <p class="font-display font-semibold text-sm text-graphite mb-1">{{ $info['nome'] }}</p>
-                            <p class="text-xs text-graphite/60">{{ $info['descricao'] }}</p>
+                            <p class="font-display font-semibold text-sm text-graphite mb-1">{{ $gallery->nome }}</p>
+                            <p class="text-xs text-graphite/60">{{ $descricoes[$slug] ?? '' }}</p>
                         </div>
                     </div>
-                @endfor
+                @endforelse
             @endforeach
         </div>
     </div>
@@ -89,22 +97,27 @@
             const botoes = document.querySelectorAll('.filtro-btn');
             const cartoes = document.querySelectorAll('.galeria-card');
 
+            function selecionar(filtro, rolar) {
+                botoes.forEach(function (b) {
+                    const ativo = b.dataset.filter === filtro;
+                    b.classList.toggle('bg-terracotta', ativo);
+                    b.classList.toggle('text-cream', ativo);
+                    b.classList.toggle('bg-white', !ativo);
+                    b.classList.toggle('border', !ativo);
+                    b.classList.toggle('border-graphite/10', !ativo);
+                    b.classList.toggle('text-graphite/70', !ativo);
+                });
+                cartoes.forEach(function (cartao) {
+                    cartao.classList.toggle('hidden', cartao.dataset.category !== filtro);
+                });
+                if (rolar) {
+                    document.getElementById('filtros').scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+            }
+
             botoes.forEach(function (botao) {
                 botao.addEventListener('click', function () {
-                    const filtro = botao.dataset.filter;
-
-                    botoes.forEach(function (b) {
-                        b.classList.remove('bg-terracotta', 'text-cream');
-                        b.classList.add('bg-white', 'border', 'border-graphite/10', 'text-graphite/70');
-                    });
-                    botao.classList.add('bg-terracotta', 'text-cream');
-                    botao.classList.remove('bg-white', 'border', 'border-graphite/10', 'text-graphite/70');
-
-                    cartoes.forEach(function (cartao) {
-                        cartao.classList.toggle('hidden', cartao.dataset.category !== filtro);
-                    });
-
-                    document.getElementById('filtros').scrollIntoView({ behavior: 'smooth', block: 'start' });
+                    selecionar(botao.dataset.filter, true);
                 });
             });
         });

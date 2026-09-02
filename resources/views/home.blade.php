@@ -57,8 +57,34 @@
         </div>
     </section>
 
+    {{-- TIPOS DE EVENTO --}}
+    @php
+        $tiposEvento = [
+            'casamentos' => 'Casamentos',
+            'festas-infantis' => 'Festas Infantis',
+            '15-anos' => '15 Anos',
+            'corporativo' => 'Corporativo',
+            'aniversarios' => 'Aniversários',
+            'cha-de-bebe' => 'Chá de Bebê',
+            'formaturas' => 'Formaturas',
+            'outros' => 'Outros',
+        ];
+    @endphp
+    <section id="eventos" class="max-w-6xl mx-auto px-6 py-16">
+        <p class="font-display font-semibold text-sm tracking-[3px] text-terracotta uppercase mb-2">Tipos de evento</p>
+        <h2 class="font-display font-extrabold text-2xl md:text-3xl text-graphite mb-8">Encontre a celebração que combina com você</h2>
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+            @foreach ($tiposEvento as $slug => $nome)
+                <a href="{{ url('/galeria') }}?tipo={{ $slug }}"
+                   class="rounded-lg bg-white shadow-sm border border-graphite/5 p-6 text-center text-sm font-medium text-graphite transition hover:shadow-md hover:-translate-y-0.5 hover:border-terracotta">
+                    {{ $nome }}
+                </a>
+            @endforeach
+        </div>
+    </section>
+
     {{-- ESTRUTURA --}}
-    <section id="sobre" class="max-w-6xl mx-auto px-6 py-16">
+    <section id="estrutura" class="max-w-6xl mx-auto px-6 py-16 border-t border-graphite/10">
         <h2 class="font-display font-semibold text-sm tracking-[3px] text-terracotta uppercase mb-8">Estrutura do espaço</h2>
         <div class="grid grid-cols-2 md:grid-cols-4 gap-6 text-center text-sm text-graphite/70">
             <div>Salão Amplo</div>
@@ -72,18 +98,26 @@
         </div>
     </section>
 
-    {{-- TIPOS DE EVENTO --}}
-    <section id="eventos" class="max-w-6xl mx-auto px-6 py-16 border-t border-graphite/10">
-        <h2 class="font-display font-semibold text-sm tracking-[3px] text-terracotta uppercase mb-8">Tipos de evento</h2>
-        <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
-            <div class="rounded-lg bg-white shadow-sm border border-graphite/5 p-6 text-center text-sm transition hover:shadow-md hover:-translate-y-0.5">Casamentos</div>
-            <div class="rounded-lg bg-white shadow-sm border border-graphite/5 p-6 text-center text-sm transition hover:shadow-md hover:-translate-y-0.5">Festas Infantis</div>
-            <div class="rounded-lg bg-white shadow-sm border border-graphite/5 p-6 text-center text-sm transition hover:shadow-md hover:-translate-y-0.5">15 Anos</div>
-            <div class="rounded-lg bg-white shadow-sm border border-graphite/5 p-6 text-center text-sm transition hover:shadow-md hover:-translate-y-0.5">Corporativo</div>
-            <div class="rounded-lg bg-white shadow-sm border border-graphite/5 p-6 text-center text-sm transition hover:shadow-md hover:-translate-y-0.5">Aniversários</div>
-            <div class="rounded-lg bg-white shadow-sm border border-graphite/5 p-6 text-center text-sm transition hover:shadow-md hover:-translate-y-0.5">Chá de Bebê</div>
-            <div class="rounded-lg bg-white shadow-sm border border-graphite/5 p-6 text-center text-sm transition hover:shadow-md hover:-translate-y-0.5">Formaturas</div>
-            <div class="rounded-lg bg-white shadow-sm border border-graphite/5 p-6 text-center text-sm transition hover:shadow-md hover:-translate-y-0.5">Outros</div>
+    {{-- GALERIA (prévia) --}}
+    @php
+        $fotosPreview = \App\Models\Photo::where('publicada', true)->latest()->take(8)->get();
+    @endphp
+    <section class="max-w-6xl mx-auto px-6 py-16 border-t border-graphite/10">
+        <div class="flex items-center justify-between mb-8">
+            <h2 class="font-display font-semibold text-sm tracking-[3px] text-terracotta uppercase">Galeria</h2>
+            <a href="{{ url('/galeria') }}" class="text-sm text-terracotta hover:text-terracotta-dark transition">Ver todas as fotos →</a>
+        </div>
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-3">
+            @forelse ($fotosPreview as $foto)
+                <a href="{{ url('/galeria') }}" class="aspect-square rounded-md overflow-hidden bg-cover bg-center block hover:opacity-90 transition"
+                   style="background-image: url('{{ $foto->url() }}');"></a>
+            @empty
+                @for ($i = 1; $i <= 8; $i++)
+                    <div class="aspect-square rounded-md bg-graphite-light/10 animate-pulse flex items-center justify-center text-xs text-graphite/40">
+                        Em breve
+                    </div>
+                @endfor
+            @endforelse
         </div>
     </section>
 
@@ -93,7 +127,7 @@
         <p class="text-graphite/70 text-sm max-w-xl mb-8">
             Sabores que completam a experiência do seu evento, com opções para todos os estilos de celebração.
         </p>
-        <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
             @for ($i = 1; $i <= 4; $i++)
                 @php $img = 'images/gastronomia/prato-' . $i . '.jpg'; $existe = file_exists(public_path($img)); @endphp
                 <div class="aspect-square rounded-lg overflow-hidden {{ $existe ? 'bg-cover bg-center' : 'bg-graphite-light/10 animate-pulse flex items-center justify-center text-xs text-graphite/40' }}"
@@ -102,6 +136,13 @@
                 </div>
             @endfor
         </div>
+        <a href="{{ url('/sobre') }}#gastronomia"
+           class="inline-flex items-center gap-2 text-sm font-medium text-terracotta hover:text-terracotta-dark transition">
+            Ver cardápios completos
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M5 12h14M13 6l6 6-6 6"></path>
+            </svg>
+        </a>
     </section>
 
     {{-- COMO FUNCIONA --}}
@@ -140,28 +181,6 @@
                     </div>
                 </div>
             </div>
-        </div>
-    </section>
-
-    {{-- GALERIA (prévia) --}}
-    <section class="max-w-6xl mx-auto px-6 py-16 border-t border-graphite/10">
-        <div class="flex items-center justify-between mb-8">
-            <h2 class="font-display font-semibold text-sm tracking-[3px] text-terracotta uppercase">Galeria</h2>
-            <a href="{{ url('/galeria') }}" class="text-sm text-terracotta hover:text-terracotta-dark transition">Ver todas as fotos →</a>
-        </div>
-        <div class="grid grid-cols-2 md:grid-cols-4 gap-3">
-            @for ($i = 1; $i <= 8; $i++)
-                @php
-                    $img = 'images/galeria/galeria-' . $i . '.jpg';
-                    $existe = file_exists(public_path($img));
-                @endphp
-                <div class="aspect-square rounded-md overflow-hidden {{ $existe ? 'bg-cover bg-center' : 'bg-graphite-light/10 animate-pulse flex items-center justify-center text-xs text-graphite/40' }}"
-                     @if($existe) style="background-image: url('{{ asset($img) }}');" @endif>
-                    @unless($existe)
-                        <div class="w-full h-full flex items-center justify-center">Em breve</div>
-                    @endunless
-                </div>
-            @endfor
         </div>
     </section>
 
@@ -307,8 +326,46 @@
         </div>
     </section>
 
+    {{-- FAQ --}}
+    <section id="faq" class="max-w-6xl mx-auto px-6 py-16 grid gap-10 md:grid-cols-[1fr_2fr] border-t border-graphite/10">
+        <div>
+            <p class="font-display font-semibold text-sm tracking-[3px] text-terracotta uppercase mb-3">Dúvidas frequentes</p>
+            <h2 class="font-display font-extrabold text-2xl md:text-3xl text-graphite mb-4">Tudo o que você precisa saber</h2>
+            <p class="text-graphite/60 text-sm mb-6">Se ainda houver alguma dúvida, fale com nossa equipe.</p>
+            <a href="https://wa.me/5543996497714" target="_blank" rel="noopener"
+               class="inline-flex items-center gap-2 text-terracotta text-sm font-medium hover:text-terracotta-dark transition">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M12 2a10 10 0 0 0-8.6 15l-1.2 4.4 4.5-1.2A10 10 0 1 0 12 2Zm0 18a8 8 0 0 1-4.1-1.1l-.3-.2-2.7.7.7-2.6-.2-.3A8 8 0 1 1 12 20Zm4.4-5.5c-.2-.1-1.4-.7-1.6-.8-.2-.1-.4-.1-.5.1-.2.2-.6.8-.7.9-.1.2-.3.2-.5.1-.2-.1-1-.4-2-1.2-.7-.6-1.2-1.4-1.4-1.6-.1-.2 0-.4.1-.5l.4-.4c.1-.1.2-.2.2-.4.1-.1 0-.3 0-.4-.1-.1-.5-1.2-.7-1.7-.2-.4-.4-.4-.5-.4h-.5c-.1 0-.4.1-.6.3-.2.2-.8.8-.8 1.9s.8 2.2 1 2.4c.1.1 1.6 2.5 3.9 3.5.5.2.9.4 1.3.5.5.2 1 .1 1.3-.1.4-.2 1.4-.6 1.6-1.1.2-.6.2-1 .1-1.1-.1-.1-.2-.2-.4-.2Z"></path>
+                </svg>
+                Conversar pelo WhatsApp
+            </a>
+        </div>
+
+        <div class="divide-y divide-graphite/10">
+            @php
+                $faqs = [
+                    'Qual a capacidade do espaço?' => 'O espaço comporta até 200 convidados. A quantidade ideal pode variar conforme a montagem e o tipo de evento.',
+                    'É possível levar buffet próprio?' => 'Sim, o espaço permite a contratação de fornecedores externos de buffet.',
+                    'Como funciona a reserva de data?' => 'A reserva é feita mediante contato pelo WhatsApp e confirmação da disponibilidade da data.',
+                    'O espaço possui área kids?' => 'Sim, contamos com um espaço kids dedicado para festas infantis.',
+                    'Existe horário limite para o evento?' => 'O horário é combinado previamente conforme o tipo e a duração do evento contratado.',
+                    'Como é feito o pagamento do orçamento?' => 'As condições de pagamento são definidas diretamente com nossa equipe no momento do orçamento.',
+                ];
+            @endphp
+            @foreach ($faqs as $pergunta => $resposta)
+                <details class="group py-4" @if($loop->first) open @endif>
+                    <summary class="cursor-pointer list-none flex items-center justify-between text-sm md:text-base font-medium text-graphite">
+                        {{ $pergunta }}
+                        <span class="text-terracotta text-lg leading-none transition group-open:rotate-45">+</span>
+                    </summary>
+                    <p class="text-sm text-graphite/60 mt-3 pr-8">{{ $resposta }}</p>
+                </details>
+            @endforeach
+        </div>
+    </section>
+
     {{-- FORMULÁRIO DE ORÇAMENTO --}}
-    <section id="orcamento" class="grid grid-cols-1 md:grid-cols-2">
+    <section id="orcamento" class="grid grid-cols-1 md:grid-cols-2 border-t border-graphite/10">
         <div class="hidden md:block bg-cover bg-center min-h-[420px]"
              style="background-image: url('{{ asset($existeCapaHome ? $capaHome : 'images/fachada.jpg') }}');"></div>
 
@@ -434,44 +491,6 @@
                 @endif
 
             </div>
-        </div>
-    </section>
-
-    {{-- FAQ --}}
-    <section id="faq" class="max-w-6xl mx-auto px-6 py-16 grid gap-10 md:grid-cols-[1fr_2fr]">
-        <div>
-            <p class="font-display font-semibold text-sm tracking-[3px] text-terracotta uppercase mb-3">Dúvidas frequentes</p>
-            <h2 class="font-display font-extrabold text-2xl md:text-3xl text-graphite mb-4">Tudo o que você precisa saber</h2>
-            <p class="text-graphite/60 text-sm mb-6">Se ainda houver alguma dúvida, fale com nossa equipe.</p>
-            <a href="https://wa.me/5543996497714" target="_blank" rel="noopener"
-               class="inline-flex items-center gap-2 text-terracotta text-sm font-medium hover:text-terracotta-dark transition">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 24 24" fill="currentColor">
-                    <path d="M12 2a10 10 0 0 0-8.6 15l-1.2 4.4 4.5-1.2A10 10 0 1 0 12 2Zm0 18a8 8 0 0 1-4.1-1.1l-.3-.2-2.7.7.7-2.6-.2-.3A8 8 0 1 1 12 20Zm4.4-5.5c-.2-.1-1.4-.7-1.6-.8-.2-.1-.4-.1-.5.1-.2.2-.6.8-.7.9-.1.2-.3.2-.5.1-.2-.1-1-.4-2-1.2-.7-.6-1.2-1.4-1.4-1.6-.1-.2 0-.4.1-.5l.4-.4c.1-.1.2-.2.2-.4.1-.1 0-.3 0-.4-.1-.1-.5-1.2-.7-1.7-.2-.4-.4-.4-.5-.4h-.5c-.1 0-.4.1-.6.3-.2.2-.8.8-.8 1.9s.8 2.2 1 2.4c.1.1 1.6 2.5 3.9 3.5.5.2.9.4 1.3.5.5.2 1 .1 1.3-.1.4-.2 1.4-.6 1.6-1.1.2-.6.2-1 .1-1.1-.1-.1-.2-.2-.4-.2Z"></path>
-                </svg>
-                Conversar pelo WhatsApp
-            </a>
-        </div>
-
-        <div class="divide-y divide-graphite/10">
-            @php
-                $faqs = [
-                    'Qual a capacidade do espaço?' => 'O espaço comporta até 200 convidados. A quantidade ideal pode variar conforme a montagem e o tipo de evento.',
-                    'É possível levar buffet próprio?' => 'Sim, o espaço permite a contratação de fornecedores externos de buffet.',
-                    'Como funciona a reserva de data?' => 'A reserva é feita mediante contato pelo WhatsApp e confirmação da disponibilidade da data.',
-                    'O espaço possui área kids?' => 'Sim, contamos com um espaço kids dedicado para festas infantis.',
-                    'Existe horário limite para o evento?' => 'O horário é combinado previamente conforme o tipo e a duração do evento contratado.',
-                    'Como é feito o pagamento do orçamento?' => 'As condições de pagamento são definidas diretamente com nossa equipe no momento do orçamento.',
-                ];
-            @endphp
-            @foreach ($faqs as $pergunta => $resposta)
-                <details class="group py-4" @if($loop->first) open @endif>
-                    <summary class="cursor-pointer list-none flex items-center justify-between text-sm md:text-base font-medium text-graphite">
-                        {{ $pergunta }}
-                        <span class="text-terracotta text-lg leading-none transition group-open:rotate-45">+</span>
-                    </summary>
-                    <p class="text-sm text-graphite/60 mt-3 pr-8">{{ $resposta }}</p>
-                </details>
-            @endforeach
         </div>
     </section>
 

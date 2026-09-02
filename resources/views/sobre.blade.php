@@ -92,8 +92,39 @@
         </div>
     </section>
 
-    {{-- GASTRONOMIA --}}
+    {{-- DETALHES QUE FAZEM A DIFERENÇA --}}
     <section class="max-w-6xl mx-auto px-6 py-16 border-t border-graphite/10">
+        <p class="font-display font-semibold text-xs tracking-[3px] text-terracotta uppercase mb-2">Como funciona</p>
+        <h2 class="font-display font-extrabold text-2xl md:text-3xl text-graphite mb-8">
+            Detalhes que fazem a diferença
+        </h2>
+
+        @php
+            $diferenciais = [
+                ['titulo' => 'Sem cobrança de aluguel', 'texto' => 'O valor do pacote já cobre o uso do espaço — sem taxa extra por locação.', 'icone' => 'M9 12l2 2 4-4M12 3l9 4.5v9L12 21l-9-4.5v-9L12 3Z'],
+                ['titulo' => 'Buffet completo incluso', 'texto' => 'Do coquetel de boas-vindas ao serviço de madrugada, com garçons e todo o material de mesa.', 'icone' => 'M4 12h16M6 12v6a2 2 0 002 2h8a2 2 0 002-2v-6M9 8V4h6v4'],
+                ['titulo' => 'Duração combinada com você', 'texto' => 'Festas infantis giram em torno de 3 a 4 horas; jantares e coquetéis de adultos, cerca de 7 horas.', 'icone' => 'M12 8v4l3 3M12 21a9 9 0 100-18 9 9 0 000 18Z'],
+                ['titulo' => 'Segurança sob demanda', 'texto' => 'Monitor e bombeiro civil disponíveis mediante contratação, para eventos que exigem mais estrutura.', 'icone' => 'M12 3l8 3v6c0 4.5-3.4 8.2-8 9-4.6-.8-8-4.5-8-9V6l8-3Z'],
+                ['titulo' => 'Parcelamento facilitado', 'texto' => 'Reserva com entrada mínima e o restante parcelado em até 3x sem juros.', 'icone' => 'M3 7h18M3 7v10a2 2 0 002 2h14a2 2 0 002-2V7M3 7l2-4h14l2 4M8 15h2'],
+                ['titulo' => 'Cardápio personalizável', 'texto' => 'Cada menu pode ser ajustado com a nossa equipe conforme o estilo do seu evento.', 'icone' => 'M4 19h16M6 19V9a6 6 0 0112 0v10'],
+            ];
+        @endphp
+
+        <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+            @foreach ($diferenciais as $item)
+                <div class="rounded-xl border border-graphite/10 bg-white p-6">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-terracotta mb-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+                        <path d="{{ $item['icone'] }}"></path>
+                    </svg>
+                    <p class="font-display font-semibold text-sm text-graphite mb-1.5">{{ $item['titulo'] }}</p>
+                    <p class="text-sm text-graphite/60 leading-relaxed">{{ $item['texto'] }}</p>
+                </div>
+            @endforeach
+        </div>
+    </section>
+
+    {{-- GASTRONOMIA --}}
+    <section id="gastronomia" class="max-w-6xl mx-auto px-6 py-16 border-t border-graphite/10">
         <p class="font-display font-semibold text-xs tracking-[3px] text-terracotta uppercase mb-2">Gastronomia</p>
         <h2 class="font-display font-extrabold text-2xl md:text-3xl text-graphite mb-4">
             Cardápios pensados para cada tipo de celebração
