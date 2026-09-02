@@ -5,17 +5,16 @@
 @section('content')
 
     @php
-        $capaSobre = 'images/sobre/capa.jpg';
-        $existeCapaSobre = file_exists(public_path($capaSobre));
+        $capaSobre = \App\Models\SiteImage::urlFor('sobre_capa');
     @endphp
 
     {{-- HERO --}}
-    <section class="relative h-[50vh] min-h-[360px] bg-cover bg-center flex items-end {{ $existeCapaSobre ? '' : 'bg-graphite-light animate-pulse' }}"
-             @if($existeCapaSobre) style="background-image: url('{{ asset($capaSobre) }}');" @endif>
+    <section class="relative h-[50vh] min-h-[360px] bg-cover bg-center flex items-end {{ $capaSobre ? '' : 'bg-graphite-light animate-pulse' }}"
+             @if($capaSobre) style="background-image: url('{{ $capaSobre }}');" @endif>
         <div class="absolute inset-0 bg-gradient-to-t from-graphite/85 via-graphite/25 to-transparent"></div>
-        @unless($existeCapaSobre)
+        @unless($capaSobre)
             <div class="absolute inset-0 flex items-center justify-center text-graphite/40 text-xs">
-                {{ $capaSobre }}
+                Capa da página Sobre
             </div>
         @endunless
         <div class="relative max-w-6xl mx-auto px-6 pb-12 text-center w-full">
@@ -26,7 +25,7 @@
     </section>
 
     {{-- BLOCO 1 --}}
-    @php $img1 = 'images/sobre/sobre-1.jpg'; $existe1 = file_exists(public_path($img1)); @endphp
+    @php $img1 = \App\Models\SiteImage::urlFor('sobre_bloco_1'); @endphp
     <section class="max-w-6xl mx-auto px-6 py-16 grid gap-10 md:grid-cols-2 items-center">
         <div>
             <h2 class="font-sans font-semibold text-base tracking-[2px] text-terracotta uppercase mb-4">Um espaço para cada momento</h2>
@@ -37,18 +36,18 @@
                 corporativas. Cada detalhe da estrutura é pensado para se adaptar ao seu evento, não o contrário.
             </p>
         </div>
-        <div class="rounded-xl overflow-hidden aspect-video {{ $existe1 ? 'bg-cover bg-center' : 'bg-graphite-light/10 animate-pulse flex items-center justify-center text-xs text-graphite/40' }}"
-             @if($existe1) style="background-image: url('{{ asset($img1) }}');" @endif>
-            @unless($existe1) {{ $img1 }} @endunless
+        <div class="rounded-xl overflow-hidden aspect-video {{ $img1 ? 'bg-cover bg-center' : 'bg-graphite-light/10 animate-pulse flex items-center justify-center text-xs text-graphite/40' }}"
+             @if($img1) style="background-image: url('{{ $img1 }}');" @endif>
+            @unless($img1) Sobre — foto 1 @endunless
         </div>
     </section>
 
     {{-- BLOCO 2 (imagem invertida para a esquerda) --}}
-    @php $img2 = 'images/sobre/sobre-2.jpg'; $existe2 = file_exists(public_path($img2)); @endphp
+    @php $img2 = \App\Models\SiteImage::urlFor('sobre_bloco_2'); @endphp
     <section class="max-w-6xl mx-auto px-6 py-16 border-t border-graphite/10 grid gap-10 md:grid-cols-2 items-center">
-        <div class="rounded-xl overflow-hidden aspect-video md:order-1 {{ $existe2 ? 'bg-cover bg-center' : 'bg-graphite-light/10 animate-pulse flex items-center justify-center text-xs text-graphite/40' }}"
-             @if($existe2) style="background-image: url('{{ asset($img2) }}');" @endif>
-            @unless($existe2) {{ $img2 }} @endunless
+        <div class="rounded-xl overflow-hidden aspect-video md:order-1 {{ $img2 ? 'bg-cover bg-center' : 'bg-graphite-light/10 animate-pulse flex items-center justify-center text-xs text-graphite/40' }}"
+             @if($img2) style="background-image: url('{{ $img2 }}');" @endif>
+            @unless($img2) Sobre — foto 2 @endunless
         </div>
         <div class="md:order-2">
             <h2 class="font-sans font-semibold text-base tracking-[2px] text-terracotta uppercase mb-4">Compromisso com cada detalhe</h2>

@@ -26,17 +26,16 @@
         $categoriasValidas = $galerias->keys()->all();
         $categoriaSelecionada = in_array(request('tipo'), $categoriasValidas, true) ? request('tipo') : ($categoriasValidas[0] ?? null);
 
-        $capaGaleria = 'images/galeria/capa.jpg';
-        $existeCapaGaleria = file_exists(public_path($capaGaleria));
+        $capaGaleria = \App\Models\SiteImage::urlFor('galeria_capa');
     @endphp
 
     {{-- HERO --}}
-    <section class="relative h-[50vh] min-h-[360px] bg-cover bg-center flex items-end {{ $existeCapaGaleria ? '' : 'bg-graphite-light animate-pulse' }}"
-             @if($existeCapaGaleria) style="background-image: url('{{ asset($capaGaleria) }}');" @endif>
+    <section class="relative h-[50vh] min-h-[360px] bg-cover bg-center flex items-end {{ $capaGaleria ? '' : 'bg-graphite-light animate-pulse' }}"
+             @if($capaGaleria) style="background-image: url('{{ $capaGaleria }}');" @endif>
         <div class="absolute inset-0 bg-gradient-to-t from-graphite/85 via-graphite/25 to-transparent"></div>
-        @unless($existeCapaGaleria)
+        @unless($capaGaleria)
             <div class="absolute inset-0 flex items-center justify-center text-graphite/40 text-xs">
-                {{ $capaGaleria }}
+                Capa da galeria
             </div>
         @endunless
         <div class="relative max-w-6xl mx-auto px-6 pb-12 text-center w-full">
@@ -76,6 +75,9 @@
                                 {{ Str::upper(Str::of($gallery->nome)->replace('15 Anos', '15 anos')) }}
                             </span>
                         </div>
+                        @if ($photo->legenda)
+                            <p class="px-4 py-3 text-sm text-graphite/70">{{ $photo->legenda }}</p>
+                        @endif
                     </div>
                 @empty
                     <div class="galeria-card rounded-lg overflow-hidden bg-white shadow-sm border border-graphite/5 {{ $slug === $categoriaSelecionada ? '' : 'hidden' }}"

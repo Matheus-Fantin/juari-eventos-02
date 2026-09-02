@@ -23,6 +23,7 @@ class GalleryController extends Controller
             'photos' => $gallery->photos->map(fn (Photo $photo) => [
                 'id' => $photo->id,
                 'url' => $photo->url(),
+                'legenda' => $photo->legenda,
                 'ordem' => $photo->ordem,
                 'publicada' => $photo->publicada,
             ]),
@@ -35,11 +36,13 @@ class GalleryController extends Controller
     {
         $data = $request->validate([
             'foto' => ['required', 'image', 'mimes:jpg,jpeg,png,webp', 'max:8192'],
+            'legenda' => ['nullable', 'string', 'max:255'],
         ], [
             'foto.required' => 'Escolha uma imagem para enviar.',
             'foto.image' => 'O arquivo precisa ser uma imagem (jpg, png, webp...).',
             'foto.mimes' => 'Formato não aceito. Envie jpg, png ou webp.',
             'foto.max' => 'A imagem não pode passar de 8MB.',
+            'legenda.max' => 'A legenda pode ter no máximo 255 caracteres.',
         ]);
 
         $caminho = $request->file('foto')->store('galeria/'.$gallery->categoria, 'public');
@@ -47,11 +50,46 @@ class GalleryController extends Controller
         $photo = Photo::create([
             'gallery_id' => $gallery->id,
             'caminho_arquivo' => $caminho,
+            'legenda' => $data['legenda'] ?? null,
             'ordem' => $gallery->photos()->max('ordem') + 1,
             'publicada' => true,
         ]);
 
         return response()->json(['data' => $photo], 201);
+    }
+
+    public function updatePhoto(Request $request, Photo $photo): JsonResponse
+    {
+        $data = $request->validate([
+            'legenda' => ['nullable', 'string', 'max:255'],
+        ], [
+            'legenda.max' => 'A legenda pode ter no máximo 255 caracteres.',
+        ]);
+
+        $photo->update(['legenda' => $data['legenda'] ?? null]);
+
+        return response()->json(['data' => $photo]);
+    }
+
+    public function movePhoto(Request $request, Photo $photo): JsonResponse
+    {
+        $data = $request->validate([
+            'direcao' => ['required', 'in:subir,descer'],
+        ]);
+
+        $query = Photo::where('gallery_id', $photo->gallery_id);
+
+        $vizinho = $data['direcao'] === 'subir'
+            ? $query->where('ordem', '<', $photo->ordem)->orderByDesc('ordem')->first()
+            : $query->where('ordem', '>', $photo->ordem)->orderBy('ordem')->first();
+
+        if ($vizinho) {
+            [$ordemPhoto, $ordemVizinho] = [$photo->ordem, $vizinho->ordem];
+            $photo->update(['ordem' => $ordemVizinho]);
+            $vizinho->update(['ordem' => $ordemPhoto]);
+        }
+
+        return response()->json(['data' => $photo->refresh()]);
     }
 
     public function destroyPhoto(Photo $photo): JsonResponse

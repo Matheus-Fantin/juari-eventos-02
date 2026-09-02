@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Photo extends Model
 {
-    protected $fillable = ['gallery_id', 'caminho_arquivo', 'ordem', 'publicada'];
+    protected $fillable = ['gallery_id', 'caminho_arquivo', 'legenda', 'ordem', 'publicada'];
 
     protected $casts = [
         'publicada' => 'boolean',

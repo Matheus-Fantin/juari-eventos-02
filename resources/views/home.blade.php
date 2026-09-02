@@ -6,15 +6,14 @@
 
     {{-- HERO --}}
     @php
-        $capaHome = 'images/home/home-1.jpg';
-        $existeCapaHome = file_exists(public_path($capaHome));
+        $capaHome = \App\Models\SiteImage::urlFor('home_capa');
     @endphp
-    <section class="relative h-[65vh] min-h-[460px] bg-cover bg-center flex items-end {{ $existeCapaHome ? '' : 'bg-graphite-light animate-pulse' }}"
-             @if($existeCapaHome) style="background-image: url('{{ asset($capaHome) }}');" @endif>
+    <section class="relative h-[65vh] min-h-[460px] bg-cover bg-center flex items-end {{ $capaHome ? '' : 'bg-graphite-light animate-pulse' }}"
+             @if($capaHome) style="background-image: url('{{ $capaHome }}');" @endif>
         <div class="absolute inset-0 bg-gradient-to-t from-graphite/90 via-graphite/30 to-transparent"></div>
-        @unless($existeCapaHome)
+        @unless($capaHome)
             <div class="absolute inset-0 flex items-center justify-center text-graphite/40 text-xs">
-                {{ $capaHome }}
+                Capa da tela inicial
             </div>
         @endunless
         <div class="relative max-w-6xl mx-auto px-6 pb-12 text-center w-full">
@@ -450,7 +449,7 @@
     {{-- FORMULÁRIO DE ORÇAMENTO --}}
     <section id="orcamento" class="grid grid-cols-1 md:grid-cols-2 border-t border-graphite/10">
         <div class="hidden md:block bg-cover bg-center min-h-[420px]"
-             style="background-image: url('{{ asset($existeCapaHome ? $capaHome : 'images/fachada.jpg') }}');"></div>
+             style="background-image: url('{{ $capaHome ?? asset('images/fachada.jpg') }}');"></div>
 
         <div class="bg-graphite px-6 py-16 md:px-12 flex items-center">
             <div class="max-w-md w-full mx-auto">
