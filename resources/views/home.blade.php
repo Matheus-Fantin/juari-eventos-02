@@ -129,7 +129,9 @@
 
     {{-- GALERIA (prévia) --}}
     @php
-        $fotosPreview = \App\Models\Photo::where('publicada', true)->latest()->take(8)->get();
+        $fotosPreview = \App\Models\Photo::where('publicada', true)
+            ->whereHas('gallery', fn ($q) => $q->where('tipo', 'eventos'))
+            ->latest()->take(8)->get();
     @endphp
     <section class="max-w-6xl mx-auto px-6 py-16 border-t border-graphite/10">
         <div class="flex items-center justify-between mb-8">
@@ -151,20 +153,72 @@
     </section>
 
     {{-- GASTRONOMIA --}}
+    @php
+        $galeriasGastronomia = \App\Models\Gallery::with(['photos' => fn ($q) => $q->where('publicada', true)->orderBy('ordem')])
+            ->where('tipo', 'gastronomia')
+            ->orderBy('id')
+            ->get();
+        $primeiraGastronomia = $galeriasGastronomia->first()?->categoria;
+    @endphp
     <section id="gastronomia" class="max-w-6xl mx-auto px-6 py-16 border-t border-graphite/10">
         <h2 class="font-sans font-semibold text-sm tracking-[3px] text-terracotta uppercase mb-3">Gastronomia</h2>
-        <p class="text-graphite/70 text-sm max-w-xl mb-8">
+        <p class="text-graphite/70 text-sm max-w-xl mb-6">
             Sabores que completam a experiência do seu evento, com opções para todos os estilos de celebração.
         </p>
+
+        @if ($galeriasGastronomia->count() > 1)
+            <div id="gastronomia-filtros" class="flex flex-wrap gap-2 mb-6">
+                @foreach ($galeriasGastronomia as $galeria)
+                    <button data-filter="{{ $galeria->categoria }}"
+                            class="gastronomia-filtro-btn px-4 py-2 rounded-full text-sm font-medium transition
+                                   {{ $galeria->categoria === $primeiraGastronomia ? 'bg-terracotta text-cream' : 'bg-white border border-graphite/10 text-graphite/70 hover:border-terracotta' }}">
+                        {{ $galeria->nome }}
+                    </button>
+                @endforeach
+            </div>
+        @endif
+
         <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
-            @for ($i = 1; $i <= 4; $i++)
-                @php $img = 'images/gastronomia/prato-' . $i . '.jpg'; $existe = file_exists(public_path($img)); @endphp
-                <div class="aspect-square rounded-lg overflow-hidden {{ $existe ? 'bg-cover bg-center' : 'bg-graphite-light/10 animate-pulse flex items-center justify-center text-xs text-graphite/40' }}"
-                     @if($existe) style="background-image: url('{{ asset($img) }}');" @endif>
-                    @unless($existe) Em breve @endunless
-                </div>
-            @endfor
+            @forelse ($galeriasGastronomia as $galeria)
+                @forelse ($galeria->photos as $foto)
+                    <div class="gastronomia-card aspect-square rounded-lg overflow-hidden bg-cover bg-center {{ $galeria->categoria === $primeiraGastronomia ? '' : 'hidden' }}"
+                         data-category="{{ $galeria->categoria }}" style="background-image: url('{{ $foto->url() }}');"></div>
+                @empty
+                    <div class="gastronomia-card aspect-square rounded-lg overflow-hidden bg-graphite-light/10 animate-pulse flex items-center justify-center text-xs text-graphite/40 {{ $galeria->categoria === $primeiraGastronomia ? '' : 'hidden' }}"
+                         data-category="{{ $galeria->categoria }}">
+                        Em breve
+                    </div>
+                @endforelse
+            @empty
+                @for ($i = 1; $i <= 4; $i++)
+                    <div class="aspect-square rounded-lg bg-graphite-light/10 animate-pulse flex items-center justify-center text-xs text-graphite/40">Em breve</div>
+                @endfor
+            @endforelse
         </div>
+
+        <script>
+            document.addEventListener('DOMContentLoaded', function () {
+                const botoes = document.querySelectorAll('.gastronomia-filtro-btn');
+                const cartoes = document.querySelectorAll('.gastronomia-card');
+                botoes.forEach(function (botao) {
+                    botao.addEventListener('click', function () {
+                        const filtro = botao.dataset.filter;
+                        botoes.forEach(function (b) {
+                            const ativo = b === botao;
+                            b.classList.toggle('bg-terracotta', ativo);
+                            b.classList.toggle('text-cream', ativo);
+                            b.classList.toggle('bg-white', !ativo);
+                            b.classList.toggle('border', !ativo);
+                            b.classList.toggle('border-graphite/10', !ativo);
+                            b.classList.toggle('text-graphite/70', !ativo);
+                        });
+                        cartoes.forEach(function (cartao) {
+                            cartao.classList.toggle('hidden', cartao.dataset.category !== filtro);
+                        });
+                    });
+                });
+            });
+        </script>
         <a href="{{ url('/sobre') }}#gastronomia"
            class="inline-flex items-center gap-2 text-sm font-medium text-terracotta hover:text-terracotta-dark transition">
             Ver cardápios completos

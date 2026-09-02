@@ -17,6 +17,7 @@
         ];
 
         $galerias = \App\Models\Gallery::with(['photos' => fn ($q) => $q->where('publicada', true)->orderBy('ordem')])
+            ->where('tipo', 'eventos')
             ->whereNotNull('categoria')
             ->orderBy('id')
             ->get()

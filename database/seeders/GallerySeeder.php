@@ -21,7 +21,16 @@ class GallerySeeder extends Seeder
         ];
 
         foreach ($categorias as $slug => $nome) {
-            Gallery::firstOrCreate(['categoria' => $slug], ['nome' => $nome]);
+            Gallery::firstOrCreate(['categoria' => $slug], ['nome' => $nome, 'tipo' => 'eventos']);
+        }
+
+        $gastronomia = [
+            'gastronomia-festas-infantis' => 'Festas Infantis',
+            'gastronomia-jantares-coqueteis' => 'Jantares & Coquetéis',
+        ];
+
+        foreach ($gastronomia as $slug => $nome) {
+            Gallery::firstOrCreate(['categoria' => $slug], ['nome' => $nome, 'tipo' => 'gastronomia']);
         }
     }
 }

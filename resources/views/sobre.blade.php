@@ -142,7 +142,7 @@
 
             {{-- Card: Festas Kids --}}
             <div class="rounded-xl border border-graphite/10 bg-white p-6">
-                <h3 class="font-display font-semibold text-lg text-graphite mb-1">Festas Infantis</h3>
+                <h3 class="font-display font-bold text-2xl text-graphite mb-1">Festas Infantis</h3>
                 <p class="text-xs text-graphite/50 mb-5">Cardápio kids, com opção de decoração temática</p>
 
                 <div class="space-y-4 text-sm text-graphite/75">
@@ -167,7 +167,7 @@
 
             {{-- Card: Jantares e Coquetéis --}}
             <div class="rounded-xl border border-graphite/10 bg-white p-6">
-                <h3 class="font-display font-semibold text-lg text-graphite mb-1">Jantares & Coquetéis</h3>
+                <h3 class="font-display font-bold text-2xl text-graphite mb-1">Jantares & Coquetéis</h3>
                 <p class="text-xs text-graphite/50 mb-5">Casamentos, formaturas, corporativo e mais</p>
 
                 <div class="space-y-4 text-sm text-graphite/75">

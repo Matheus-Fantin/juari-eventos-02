@@ -14,19 +14,24 @@ class GalleryController extends Controller
 {
     public function index(): View
     {
-        $galleries = Gallery::with(['photos' => fn ($q) => $q->orderBy('ordem')])->orderBy('nome')->get();
+        $galleries = Gallery::with(['photos' => fn ($q) => $q->orderBy('ordem')])->orderBy('id')->get();
+        $grupos = [
+            'eventos' => ['titulo' => 'Tipos de Evento', 'galerias' => $galleries->where('tipo', 'eventos')],
+            'gastronomia' => ['titulo' => 'Gastronomia', 'galerias' => $galleries->where('tipo', 'gastronomia')],
+        ];
 
-        return view('admin.galleries.index', ['galleries' => $galleries]);
+        return view('admin.galleries.index', ['grupos' => $grupos]);
     }
 
     public function store(Request $request): RedirectResponse
     {
         $data = $request->validate([
             'gallery_id' => ['required', 'exists:galleries,id'],
-            'foto' => ['required', 'image', 'max:8192'],
+            'foto' => ['required', 'image', 'mimes:jpg,jpeg,png,webp', 'max:8192'],
         ], [
             'foto.required' => 'Escolha uma imagem para enviar.',
             'foto.image' => 'O arquivo precisa ser uma imagem (jpg, png, webp...).',
+            'foto.mimes' => 'Formato não aceito. Envie jpg, png ou webp.',
             'foto.max' => 'A imagem não pode passar de 8MB.',
         ]);
 
