@@ -139,11 +139,11 @@
         </div>
         <div class="grid grid-cols-2 md:grid-cols-4 gap-3">
             @forelse ($fotosPreview as $foto)
-                <a href="{{ url('/galeria') }}" class="aspect-square rounded-md overflow-hidden bg-cover bg-center block hover:opacity-90 transition"
+                <a href="{{ url('/galeria') }}" class="aspect-video rounded-md overflow-hidden bg-cover bg-center block hover:opacity-90 transition"
                    style="background-image: url('{{ $foto->url() }}');"></a>
             @empty
                 @for ($i = 1; $i <= 8; $i++)
-                    <div class="aspect-square rounded-md bg-graphite-light/10 animate-pulse flex items-center justify-center text-xs text-graphite/40">
+                    <div class="aspect-video rounded-md bg-graphite-light/10 animate-pulse flex items-center justify-center text-xs text-graphite/40">
                         Em breve
                     </div>
                 @endfor
@@ -180,17 +180,17 @@
         <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
             @forelse ($galeriasGastronomia as $galeria)
                 @forelse ($galeria->photos as $foto)
-                    <div class="gastronomia-card aspect-square rounded-lg overflow-hidden bg-cover bg-center {{ $galeria->categoria === $primeiraGastronomia ? '' : 'hidden' }}"
+                    <div class="gastronomia-card aspect-video rounded-lg overflow-hidden bg-cover bg-center {{ $galeria->categoria === $primeiraGastronomia ? '' : 'hidden' }}"
                          data-category="{{ $galeria->categoria }}" style="background-image: url('{{ $foto->url() }}');"></div>
                 @empty
-                    <div class="gastronomia-card aspect-square rounded-lg overflow-hidden bg-graphite-light/10 animate-pulse flex items-center justify-center text-xs text-graphite/40 {{ $galeria->categoria === $primeiraGastronomia ? '' : 'hidden' }}"
+                    <div class="gastronomia-card aspect-video rounded-lg overflow-hidden bg-graphite-light/10 animate-pulse flex items-center justify-center text-xs text-graphite/40 {{ $galeria->categoria === $primeiraGastronomia ? '' : 'hidden' }}"
                          data-category="{{ $galeria->categoria }}">
                         Em breve
                     </div>
                 @endforelse
             @empty
                 @for ($i = 1; $i <= 4; $i++)
-                    <div class="aspect-square rounded-lg bg-graphite-light/10 animate-pulse flex items-center justify-center text-xs text-graphite/40">Em breve</div>
+                    <div class="aspect-video rounded-lg bg-graphite-light/10 animate-pulse flex items-center justify-center text-xs text-graphite/40">Em breve</div>
                 @endfor
             @endforelse
         </div>
