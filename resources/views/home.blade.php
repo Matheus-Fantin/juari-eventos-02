@@ -271,44 +271,33 @@
         <h2 class="font-sans font-semibold text-sm tracking-[3px] text-terracotta uppercase mb-8">Depoimentos</h2>
 
         @php
-            $depoimentosReais = \App\Models\Testimonial::where('publicado', true)->latest()->take(6)->get();
-            $usandoFicticios = $depoimentosReais->isEmpty();
-            $depoimentos = $usandoFicticios
-                ? collect([
-                    (object) ['autor' => 'Nome do Cliente', 'evento_tipo' => 'Casamento', 'texto' => 'Depoimento do cliente sobre o evento realizado no espaço.', 'nota' => 5],
-                    (object) ['autor' => 'Nome do Cliente', 'evento_tipo' => '15 Anos', 'texto' => 'Depoimento do cliente sobre o evento realizado no espaço.', 'nota' => 5],
-                ])
-                : $depoimentosReais;
+            $depoimentos = \App\Models\Testimonial::where('publicado', true)->latest()->take(6)->get();
         @endphp
 
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
-            @foreach ($depoimentos as $d)
-                <div class="rounded-lg bg-white shadow-sm border border-graphite/5 p-6">
-                    <div class="flex text-terracotta mb-3">
-                        @for ($s = 1; $s <= 5; $s++)
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 {{ $s > $d->nota ? 'text-graphite/15' : '' }}" viewBox="0 0 24 24" fill="currentColor">
-                                <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2Z"></path>
-                            </svg>
-                        @endfor
-                    </div>
-                    <p class="text-sm text-graphite/70 mb-4">&ldquo;{{ $d->texto }}&rdquo;</p>
-                    <div class="flex items-center gap-3">
-                        <div class="h-9 w-9 rounded-full bg-terracotta/15 text-terracotta font-display font-bold text-xs flex items-center justify-center">
-                            {{ strtoupper(substr($d->autor, 0, 1)) }}
+        @if ($depoimentos->isNotEmpty())
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8">
+                @foreach ($depoimentos as $d)
+                    <div class="rounded-lg bg-white shadow-sm border border-graphite/5 p-6">
+                        <div class="flex text-terracotta mb-3">
+                            @for ($s = 1; $s <= 5; $s++)
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 {{ $s > $d->nota ? 'text-graphite/15' : '' }}" viewBox="0 0 24 24" fill="currentColor">
+                                    <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2Z"></path>
+                                </svg>
+                            @endfor
                         </div>
-                        <div>
-                            <p class="text-sm font-medium text-graphite">{{ $d->autor }}</p>
-                            <p class="text-xs text-graphite/50">{{ $d->evento_tipo }}</p>
+                        <p class="text-sm text-graphite/70 mb-4">&ldquo;{{ $d->texto }}&rdquo;</p>
+                        <div class="flex items-center gap-3">
+                            <div class="h-9 w-9 rounded-full bg-terracotta/15 text-terracotta font-display font-bold text-xs flex items-center justify-center">
+                                {{ strtoupper(substr($d->autor, 0, 1)) }}
+                            </div>
+                            <div>
+                                <p class="text-sm font-medium text-graphite">{{ $d->autor }}</p>
+                                <p class="text-xs text-graphite/50">{{ $d->evento_tipo }}</p>
+                            </div>
                         </div>
                     </div>
-                </div>
-            @endforeach
-        </div>
-
-        @if ($usandoFicticios)
-            <p class="text-xs text-graphite/40 text-center mb-8">
-                Depoimentos fictícios utilizados para demonstração — serão substituídos por avaliações reais assim que forem aprovados.
-            </p>
+                @endforeach
+            </div>
         @endif
 
         <div class="max-w-xl mx-auto">
