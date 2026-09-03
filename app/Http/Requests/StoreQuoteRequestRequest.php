@@ -16,7 +16,6 @@ class StoreQuoteRequestRequest extends FormRequest
         return [
             'nome' => ['required', 'string', 'min:3', 'max:255', 'regex:/^[\p{L}\s]+$/u', 'regex:/^\S+\s+\S+/'],
             'telefone' => ['required', 'string', 'regex:/^\(?\d{2}\)?[\s-]?\d{4,5}-?\d{4}$/'],
-            'email' => ['nullable', 'email', 'max:255'],
             'data_evento' => [
                 'required',
                 'date',
@@ -37,7 +36,6 @@ class StoreQuoteRequestRequest extends FormRequest
             'nome.regex' => 'Informe o nome completo, sem números ou símbolos.',
             'telefone.required' => 'Informe um telefone para contato.',
             'telefone.regex' => 'Informe um telefone válido, com DDD. Ex: (43) 90000-0000.',
-            'email.email' => 'Informe um e-mail válido.',
             'data_evento.required' => 'Informe a data do evento.',
             'data_evento.after_or_equal' => 'Solicite com pelo menos 3 dias de antecedência.',
             'data_evento.before' => 'A data do evento deve ser em até 5 anos.',

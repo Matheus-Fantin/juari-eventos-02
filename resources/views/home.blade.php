@@ -506,13 +506,6 @@
                             @error('telefone') <p class="text-red-300 text-xs mt-1.5">{{ $message }}</p> @enderror
                         </div>
 
-                        <div>
-                            <label class="block text-xs text-cream/50 mb-1.5">E-mail</label>
-                            <input type="email" name="email" value="{{ old('email') }}"
-                                   class="w-full rounded-md border @error('email') border-red-400 @else border-cream/20 @enderror bg-graphite-light text-cream px-4 py-3 text-sm focus:outline-none focus:border-terracotta transition">
-                            @error('email') <p class="text-red-300 text-xs mt-1.5">{{ $message }}</p> @enderror
-                        </div>
-
                         <div class="grid grid-cols-2 gap-4">
                             <div>
                                 <label class="block text-xs text-cream/50 mb-1.5">Data do evento <span class="text-terracotta">*</span></label>
