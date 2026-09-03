@@ -29,21 +29,24 @@ class QuoteRequestService
             'status_validacao' => 'pendente',
         ]);
 
-        $this->notificarAdministrador($lead);
+        $this->notificarAdministrador($lead, $quoteRequest);
 
         return $quoteRequest;
     }
 
-    private function notificarAdministrador(Lead $lead): void
+    private function notificarAdministrador(Lead $lead, QuoteRequest $quoteRequest): void
     {
         $data = $lead->data_evento ? \Carbon\Carbon::parse($lead->data_evento)->format('d/m/Y') : 'não informada';
 
-        $mensagem = "Novo pedido de orçamento — Juari Eventos\n"
-            . "Nome: {$lead->nome}\n"
-            . "Telefone: {$lead->telefone}\n"
-            . "Evento: " . ($lead->eventType?->nome ?? 'não informado') . "\n"
-            . "Data: {$data}\n"
-            . "Convidados: " . ($lead->numero_convidados ?? 'não informado');
+        $mensagem = "🎉 *Novo pedido de orçamento — Juari Eventos*\n\n"
+            . "*Nome:* {$lead->nome}\n"
+            . "*Telefone:* {$lead->telefone}\n"
+            . "*E-mail:* " . ($lead->email ?: 'não informado') . "\n"
+            . "*Tipo de evento:* " . ($lead->eventType?->nome ?? 'não informado') . "\n"
+            . "*Data desejada:* {$data}\n"
+            . "*Convidados:* " . ($lead->numero_convidados ?? 'não informado') . "\n\n"
+            . "*Mensagem do cliente:*\n"
+            . ($quoteRequest->mensagem ?: 'nenhuma observação');
 
         // E-mail continua como canal de apoio (Sprint 3); o WhatsApp é o principal.
         // Sem credenciais configuradas, o WhatsAppNotifier registra em log e segue normalmente.
