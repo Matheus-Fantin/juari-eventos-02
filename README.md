@@ -1,3 +1,22 @@
+# Juari Eventos
+
+Site público da Juari Eventos, com API protegida por token para o [juari-gerenciador](https://github.com/Matheus-Fantin/juari-gerenciador).
+
+## Configuração local
+
+```bash
+composer install
+npm install
+cp .env.example .env
+php artisan key:generate
+php artisan storage:link
+php artisan migrate --seed
+npm run build
+php artisan serve
+```
+
+O `php artisan storage:link` é obrigatório — sem ele, as imagens enviadas pelo gerenciador (capas do site, fotos da galeria) ficam com o link quebrado no navegador, mesmo já estando salvas no servidor.
+
 <p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
 
 <p align="center">
