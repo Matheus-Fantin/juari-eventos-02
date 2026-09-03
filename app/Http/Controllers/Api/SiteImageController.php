@@ -22,6 +22,8 @@ class SiteImageController extends Controller
                 'label' => $info['label'],
                 'url' => $image ? $image->url() : SiteImage::urlFor($slot),
                 'definida' => (bool) ($image?->caminho_arquivo),
+                'proporcao' => $info['proporcao'],
+                'dica' => $info['dica'],
             ];
         })->values();
 
