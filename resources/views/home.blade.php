@@ -436,9 +436,10 @@
     </section>
 
     {{-- FORMULÁRIO DE ORÇAMENTO --}}
+    @php $capaContato = \App\Models\SiteImage::urlFor('contato_capa'); @endphp
     <section id="orcamento" class="grid grid-cols-1 md:grid-cols-2 border-t border-graphite/10">
         <div class="hidden md:block bg-cover bg-center min-h-[420px]"
-             style="background-image: url('{{ $capaHome ?? asset('images/fachada.jpg') }}');"></div>
+             style="background-image: url('{{ $capaContato ?? asset('images/fachada.jpg') }}');"></div>
 
         <div class="bg-graphite px-6 py-16 md:px-12 flex items-center">
             <div class="max-w-md w-full mx-auto">

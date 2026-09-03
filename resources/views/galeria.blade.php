@@ -76,7 +76,7 @@
                             </span>
                         </div>
                         @if ($photo->legenda)
-                            <p class="px-4 py-3 text-sm text-graphite/70">{{ $photo->legenda }}</p>
+                            <p class="px-4 py-3 font-display italic text-[15px] text-graphite/75">{{ $photo->legenda }}</p>
                         @endif
                     </div>
                 @empty

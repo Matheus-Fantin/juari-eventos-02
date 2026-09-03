@@ -44,6 +44,12 @@ class SiteImage extends Model
             'proporcao' => '16:9',
             'dica' => 'Foto horizontal (ex: 1200×675px), com o assunto principal centralizado.',
         ],
+        'contato_capa' => [
+            'label' => 'Foto ao lado do formulário de contato',
+            'padrao' => 'images/fachada.jpg',
+            'proporcao' => '4:5',
+            'dica' => 'Foto vertical ou quadrada (ex: 900×1125px), como a fachada ou entrada do espaço.',
+        ],
     ];
 
     /**
