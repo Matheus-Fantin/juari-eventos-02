@@ -39,7 +39,7 @@
             </div>
         @endunless
         <div class="relative max-w-6xl mx-auto px-6 pb-12 text-center w-full">
-            <p class="font-sans font-semibold text-sm tracking-[3px] text-terracotta mb-3">JUARI EVENTOS</p>
+            <p class="font-sans font-semibold text-sm tracking-[3px] text-cream mb-3">JUARI EVENTOS</p>
             <h1 class="font-display font-extrabold text-3xl md:text-4xl text-cream">Galeria</h1>
             <p class="text-cream/80 mt-3">Momentos reais celebrados no nosso espaço.</p>
         </div>
