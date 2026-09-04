@@ -17,7 +17,6 @@
             </div>
         @endunless
         <div class="relative max-w-6xl mx-auto px-6 pb-12 text-center w-full">
-            <p class="font-sans font-semibold text-sm tracking-[3px] text-cream mb-3">SERTANÓPOLIS · PR</p>
             <h1 class="font-display font-extrabold text-4xl md:text-5xl text-cream mb-3">
                 JUARI <span class="text-cream/75">EVENTOS</span>
             </h1>
