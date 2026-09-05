@@ -9,15 +9,15 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     return view('home');
-});
+})->middleware('track.pageview:home');
 
 Route::get('/sobre', function () {
     return view('sobre');
-});
+})->middleware('track.pageview:sobre');
 
 Route::get('/galeria', function () {
     return view('galeria');
-});
+})->middleware('track.pageview:galeria');
 
 Route::post('/orcamento', [QuoteRequestController::class, 'store'])
     ->middleware('throttle:5,1')

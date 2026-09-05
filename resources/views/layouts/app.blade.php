@@ -108,6 +108,16 @@
     </style>
 
     @vite(['resources/css/app.css', 'resources/js/app.js'])
+
+    @if (config('services.clarity.project_id'))
+        <script type="text/javascript">
+            (function(c,l,a,r,i,t,y){
+                c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+                t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+                y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+            })(window, document, "clarity", "script", "{{ config('services.clarity.project_id') }}");
+        </script>
+    @endif
 </head>
 <body class="font-sans text-graphite bg-cream antialiased notranslate">
 
@@ -243,8 +253,14 @@
         </div>
 
         <div class="border-t border-graphite/10">
-            <div class="max-w-6xl mx-auto px-6 py-5 text-xs text-graphite/50">
-                &copy; {{ date('Y') }} Juari Eventos. Todos os direitos reservados.
+            <div class="max-w-6xl mx-auto px-6 py-5 text-xs text-graphite/50 space-y-1">
+                <p>&copy; {{ date('Y') }} Juari Eventos. Todos os direitos reservados.</p>
+                @if (config('services.clarity.project_id'))
+                    <p>
+                        Este site utiliza cookies e ferramentas de análise para entender como os visitantes navegam
+                        e melhorar a experiência de uso. Nenhum dado pessoal é vendido ou compartilhado com terceiros.
+                    </p>
+                @endif
             </div>
         </div>
     </footer>

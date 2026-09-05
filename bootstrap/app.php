@@ -15,6 +15,7 @@ return Application::configure(basePath: dirname(__DIR__))
         $middleware->alias([
             'admin' => \App\Http\Middleware\EnsureUserIsAdmin::class,
             'gerenciador.token' => \App\Http\Middleware\EnsureValidApiToken::class,
+            'track.pageview' => \App\Http\Middleware\TrackPageView::class,
         ]);
 
         $middleware->append(\App\Http\Middleware\SecurityHeaders::class);

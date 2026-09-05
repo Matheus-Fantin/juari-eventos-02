@@ -45,4 +45,8 @@ return [
         'api_token' => env('GERENCIADOR_API_TOKEN'),
     ],
 
+    'clarity' => [
+        'project_id' => env('CLARITY_PROJECT_ID'),
+    ],
+
 ];
